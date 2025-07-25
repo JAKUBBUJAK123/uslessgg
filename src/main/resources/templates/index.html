@@ -4,12 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UslessGG - Home</title>
-    <link rel="stylesheet" href="/css/styles.css"> </head>
+    <link rel="stylesheet" href="/css/style.css"> </head>
 <body>
 <h1>UslessGG find how usless you are!</h1>
-<p>Enter a Summoner Name wiht #id:</p>
+<p>Enter a Summoner Name with #id:</p>
+<form action="/search-summoner" method="get">
+    <input type="text" name="gameName" placeholder="Game Name">
+    <input type="text" name="tagLine" placeholder="Tag Line">
+    <button type="submit">Search</button>
+</form>
+
+<p th:if="${message}" th:text="${message}"></p>
+<p th:if="${summoner}" th:text="${summoner}"></p>
 <footer>
-    <p>&copy; 2025 Kotiwica & Riot Games</p>
+    <p>&copy; 2025 Kotwica & Riot Games</p>
 </footer>
 </body>
 </html>
