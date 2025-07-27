@@ -1,6 +1,7 @@
 package com.example.uslessgg.controllers;
 
 import com.example.uslessgg.models.AccountDto;
+import com.example.uslessgg.models.MatchHistoryDto;
 import com.example.uslessgg.models.SummonerDto;
 import com.example.uslessgg.services.RiotApiService;
 import org.springframework.stereotype.Controller;
@@ -8,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 @Controller
 public class HomeController {
@@ -29,16 +32,20 @@ public class HomeController {
             Model model) {
         try {
             Mono<AccountDto> accountMono = riotApiService.getAccountByRiotId(gameName, tagLine);
-
-
             Mono<SummonerDto> summonerMono = accountMono.flatMap(account -> {
                 return riotApiService.getSummonerByPuuid(account.getPuuid());
             });
             SummonerDto summoner = summonerMono.block();
 
-            model.addAttribute("summoner", summoner.getName());
+            Mono<List<String>> matchHistoryMono = summonerMono.flatMap(s -> {
+                return riotApiService.getMatchHistoryByPuuid(s.getPuuid());
+            });
+            List<String> matchHistory = matchHistoryMono.block();
+
+            model.addAttribute("summoner", summoner);
+            model.addAttribute("history" , matchHistory);
             model.addAttribute("message", "Summoner found!");
-            return "index"; // Render the summoner-details page
+            return "index";
         } catch (Exception e) {
             System.err.println("Error finding summoner: " + e.getMessage());
             model.addAttribute("message", "Error finding summoner: " + e.getMessage() + ". Please check Game Name and Tag Line.");

@@ -1,11 +1,15 @@
 package com.example.uslessgg.services;
 
 import com.example.uslessgg.models.AccountDto;
+import com.example.uslessgg.models.MatchHistoryDto;
 import com.example.uslessgg.models.SummonerDto;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 @Service
 public class RiotApiService {
@@ -28,11 +32,17 @@ public class RiotApiService {
     }
     public Mono<SummonerDto> getSummonerByPuuid(String puuid) {
         return summonerWebClient.get()
-                // The URI path should be relative to the base URL configured for summonerWebClient
-                // The base URL for summonerWebClient is riot.api.base-url.summoner (e.g., https://euw1.api.riotgames.com)
                 .uri("/lol/summoner/v4/summoners/by-puuid/{puuid}", puuid)
                 .retrieve()
                 .bodyToMono(SummonerDto.class) // Expecting a SummonerDto
                 .doOnError(error -> System.err.println("Error fetching summoner by PUUID: " + error.getMessage()));
+    }
+
+    public Mono<List<String>> getMatchHistoryByPuuid(String puuid){
+        return accountWebClient.get()
+                .uri("/lol/match/v5/matches/by-puuid/{puuid}/ids" , puuid)
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<List<String>>() {
+                });
     }
 }
