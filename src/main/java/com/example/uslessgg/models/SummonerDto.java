@@ -2,18 +2,21 @@ package com.example.uslessgg.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class SummonerDto {
-    private int id;
+    private String id;
     private String puuid;
     private int profileIconId;
     private long revisionDate;
     private int summonerLevel;
+
+    public String getId() {
+        return id;
+    }
 
     public int getProfileIconId() {
         return profileIconId;

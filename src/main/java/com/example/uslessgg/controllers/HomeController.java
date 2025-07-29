@@ -1,7 +1,7 @@
 package com.example.uslessgg.controllers;
 
 import com.example.uslessgg.models.AccountDto;
-import com.example.uslessgg.models.MatchHistoryDto;
+import com.example.uslessgg.models.EntriesDto;
 import com.example.uslessgg.models.SummonerDto;
 import com.example.uslessgg.services.RiotApiService;
 import org.springframework.stereotype.Controller;
@@ -42,8 +42,14 @@ public class HomeController {
             });
             List<String> matchHistory = matchHistoryMono.block();
 
+            Mono<List<EntriesDto>> entriesDto = summonerMono.flatMap(e ->{
+                return riotApiService.getEntriesByPuuid(e.getPuuid());
+            });
+            List<EntriesDto> entries = entriesDto.block();
+
             model.addAttribute("summoner", summoner);
             model.addAttribute("history" , matchHistory);
+            model.addAttribute("entries" , entries);
             model.addAttribute("message", "Summoner found!");
             return "index";
         } catch (Exception e) {

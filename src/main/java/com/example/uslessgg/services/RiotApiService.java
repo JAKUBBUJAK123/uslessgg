@@ -1,7 +1,7 @@
 package com.example.uslessgg.services;
 
 import com.example.uslessgg.models.AccountDto;
-import com.example.uslessgg.models.MatchHistoryDto;
+import com.example.uslessgg.models.EntriesDto;
 import com.example.uslessgg.models.SummonerDto;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -43,6 +44,14 @@ public class RiotApiService {
                 .uri("/lol/match/v5/matches/by-puuid/{puuid}/ids" , puuid)
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<String>>() {
+                });
+    }
+
+    public Mono<List<EntriesDto>> getEntriesByPuuid(String encryptedPuuid){
+        return summonerWebClient.get()
+                .uri("/lol/league/v4/entries/by-puuid/{encryptedSummonerId}", encryptedPuuid)
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<List<EntriesDto>>() {
                 });
     }
 }
