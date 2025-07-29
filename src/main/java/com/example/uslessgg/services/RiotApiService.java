@@ -3,6 +3,7 @@ package com.example.uslessgg.services;
 import com.example.uslessgg.models.AccountDto;
 import com.example.uslessgg.models.EntriesDto;
 import com.example.uslessgg.models.SummonerDto;
+import com.example.uslessgg.models.matchHistory.MatchDto;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
@@ -53,5 +54,12 @@ public class RiotApiService {
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<EntriesDto>>() {
                 });
+    }
+
+    public Mono<MatchDto> getMatchById(String matchId){
+        return accountWebClient.get()
+                .uri("/lol/match/v5/matches/{matchId}", matchId)
+                .retrieve()
+                .bodyToMono(MatchDto.class);
     }
 }

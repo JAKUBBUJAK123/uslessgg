@@ -4,12 +4,14 @@ body {
     padding: 0;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     min-height: 100vh;
     background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
     color: #e0e0e0;
     text-align: center;
     box-sizing: border-box;
+    padding-top: 40px;
+    padding-bottom: 40px;
 }
 
 .main-container{
@@ -52,7 +54,7 @@ h1 {
 
 .input-field {
     padding: 12px 15px;
-    border: none; /* Remove default border */
+    border: none;
     border-radius: 8px;
     background-color: rgba(255, 255, 255, 0.85);
     color: #333;
@@ -100,7 +102,7 @@ h1 {
 footer {
     margin-top: 50px;
     font-size: 0.8em;
-    color: #666;
+    color: rgba(255, 255, 255, 0.6);
 }
 
 .text-container {

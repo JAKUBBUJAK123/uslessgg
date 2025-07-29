@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UslessGG - Summoner Details</title>
+    <link rel="stylesheet" href="/css/style.css"> <link rel="stylesheet" href="/css/summoner-style.css"> </head>
+
+</head>
+<body>
+<div class="main-container">
+    <h1 th:if="${message}" th:text="${message}" class="status-message"></h1>
+    <div th:if="${summoner}" class="summoner-profile-card">
+        <h2 class="profile-name" th:text="${account.toString()}">Summoner Name</h2>
+        <p class="profile-level">Level: <span th:text="${summoner.summonerLevel}"></span></p>
+    </div>
+    <div th:if="${entries}" class="ranked-info-section">
+        <h2 class="section-title">Ranked Overview</h2>
+        <div class="ranked-entries-grid">
+            <div th:each="entry: ${entries}" class="ranked-card">
+                <h3 class="queue-type" th:text="${#strings.replace(entry.queueType, '_', ' ')}">Queue Type</h3>
+                <p class="tier-rank" th:text="${entry.tier} + ' ' + ${entry.rank}"></p>
+                <p class="lp">LP: <span th:text="${entry.leaugePoints}"></span></p>
+                <p class="win-loss-record">
+                    Wins: <span th:text="${entry.wins}" class="wins-count"></span> /
+                    Losses: <span th:text="${entry.losses}" class="losses-count"></span>
+                </p>
+                <div class="status-badges">
+                    <span th:if="${entry.hotStreak}" class="status-badge hot-streak">🔥 Hot Streak!</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="match-history" th:if="${matchResults}">
+        <h2 class="history-title">Match History</h2>
+        <div class="match-list">
+            <div th:each="match : ${matchResults}" class="match-item" th:classappend="${match.won} ? 'match-win' : 'match-loss'">
+                <span class="match-status" th:classappend="${match.won} ? 'status-win' : 'status-loss'" th:text="${match.won} ? 'VICTORY' : 'DEFEAT'"></span>
+            </div>
+        </div>
+    </div>
+    <footer class="footer-details">
+        <p>&copy; 2025 Kotwica & Riot Games</p>
+    </footer>
+</div>
+</body>
+</html>
