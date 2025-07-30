@@ -51,5 +51,53 @@ public class EntriesDto {
                 ", hotStreak=" + hotStreak +
                 '}';
     };
+
+    public String getQueueType() {
+        return queueType;
+    }
+
+    public String getTier() {
+        return tier;
+    }
+
+    public String getLeaugeId() {
+        return leaugeId;
+    }
+
+    public String getRank() {
+        return rank;
+    }
+
+    public String getPuuid() {
+        return puuid;
+    }
+
+    public Integer getLeaugePoints() {
+        return leaugePoints;
+    }
+
+    public Integer getLosses() {
+        return losses;
+    }
+
+    public boolean isVeteran() {
+        return veteran;
+    }
+
+    public boolean isInactive() {
+        return inactive;
+    }
+
+    public boolean isFreshBlood() {
+        return freshBlood;
+    }
+
+    public boolean isHotStreak() {
+        return hotStreak;
+    }
+
+    public Integer getWins() {
+        return wins;
+    }
 }
 

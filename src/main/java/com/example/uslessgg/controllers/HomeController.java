@@ -63,13 +63,15 @@ public class HomeController {
                                 .findFirst()
                                 .orElse(null);
                         won = summonerParticipant.isWin();
+                        matchResults.add(new MatchResult(matchId, won , summonerParticipant, matchDto.getInfo()));
                     }
-                    matchResults.add(new MatchResult(matchId, won));
+
                 }
             }
 
             model.addAttribute("summoner", summoner);
             model.addAttribute("entries" , entries);
+            model.addAttribute("history" , matchHistory);
             model.addAttribute("matchResults", matchResults);
             model.addAttribute("account", gameName + "#" + tagLine);
             model.addAttribute("message", "Summoner found!");

@@ -139,6 +139,11 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     font-weight: bold;
     text-transform: uppercase;
+    transition: transform 0.2s ease-in-out;
+    gap: 20px
+}
+.match-item:hover {
+    transform: translateY(-3px);
 }
 
 .match-item.match-win {
@@ -154,7 +159,7 @@
 .match-id {
     font-size: 0.9em;
     color: #e0e0e0;
-    flex-grow: 1; /* Allow it to take available space */
+    flex-grow: 1;
     text-align: left;
 }
 
@@ -162,7 +167,7 @@
     font-size: 1em;
     padding: 5px 10px;
     border-radius: 5px;
-    min-width: 80px; /* Ensure consistent width */
+    min-width: 80px;
     text-align: center;
 }
 
@@ -176,6 +181,68 @@
     color: #fff;
 }
 
+.match-status-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 100px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.game-duration, .game-mode {
+    font-size: 0.8em;
+    color: rgba(255, 255, 255, 0.8);
+    margin-top: 5px;
+    text-transform: capitalize;
+}
+
+.summoner-stats {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    min-width: 150px;
+    padding: 0 10px;
+}
+
+.summoner-stats .champion-name {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.summoner-stats .kda {
+    font-size: 1em;
+    color: #a0c0ff;
+    margin-bottom: 3px;
+}
+
+.team-column {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between blue team, VS, red team */
+    flex-shrink: 0; /* Don't shrink */
+    min-width: 250px; /* Adjust as needed */
+    justify-content: flex-end; /* Push teams to the right */
+}
+.team-champs {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align champions to the left within their team block */
+    gap: 3px;
+    font-size: 0.85em;
+    min-width: 80px; /* Ensure space for champion names */
+}
+.team-champ-name {
+    color: #ddd;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 90px;
+    text-transform: capitalize;
+}
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
@@ -185,8 +252,21 @@
     .summoner-profile-card,
     .ranked-entry-card,
     .match-item {
-        padding: 20px;
+        flex-direction: column; /* Stack columns on smaller screens */
+        align-items: center; /* Center content when stacked */
+        gap: 15px; /* Adjust gap */
+        padding: 15px;
     }
+
+    .match-status
+    .summoner-stats
+    .team-column {
+        width: 100%;
+        min-width: unset;
+        justify-content: center;
+        align-items: center;
+    }
+
     .profile-name {
         font-size: 2em;
     }
@@ -196,16 +276,26 @@
     .ranked-entries-grid {
         grid-template-columns: 1fr; /* Stack cards on small screens */
     }
+    .team-column{
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .team-champs{
+        align-items: center;
+    }
 }
 
 @media (max-width: 480px) {
     .match-item {
-        flex-direction: column; /* Stack match ID and status */
-        align-items: flex-start;
+        padding: 10px;
     }
-    .match-status {
-        margin-top: 8px;
-        min-width: unset; /* Remove min-width on small screens */
-        width: 100%; /* Full width status button */
+    .match-status .game-duration .game-mode {
+        font-size: 0.9em;
+    }
+    .champion-name .kda{
+        font-size: 0.9em;
+    }
+    .team-champ-name{
+        font-size: 0.75em;
     }
 }

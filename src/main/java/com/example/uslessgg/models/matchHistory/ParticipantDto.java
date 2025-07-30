@@ -13,12 +13,25 @@ public class ParticipantDto {
     private String puuid;
     @JsonProperty("win")
     private boolean win;
+    @JsonProperty("kills")
+    private int kills;
+    @JsonProperty("deaths")
+    private int deaths;
+    @JsonProperty("assists")
+    private int assists;
+    @JsonProperty("championName")
+    private String championName;
+    @JsonProperty("objectivesStolen")
+    private int objectivesStolen;
 
     @Override
     public String toString() {
         return "ParticipantDto{" +
-                "puuid='" + puuid + '\'' +
-                ", win=" + win +
+                ", kills=" + kills +
+                ", deaths=" + deaths +
+                ", assists=" + assists +
+                ", championName='" + championName + '\'' +
+                ", objectivesStolen=" + objectivesStolen +
                 '}';
     }
 
@@ -28,5 +41,21 @@ public class ParticipantDto {
 
     public boolean isWin() {
         return win;
+    }
+
+    public String getChampionName() {
+        return championName;
+    }
+
+    public int getAssists() {
+        return assists;
+    }
+
+    public int getDeaths() {
+        return deaths;
+    }
+
+    public int getKills() {
+        return kills;
     }
 }

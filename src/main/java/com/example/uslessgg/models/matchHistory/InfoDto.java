@@ -17,8 +17,6 @@ public class InfoDto {
     private long gameDuration;
     @JsonProperty("gameMode")
     private String gameMode;
-    @JsonProperty("gameType")
-    private String gameType;
     @JsonProperty("participants")
     private List<ParticipantDto> participants;
     @Override
@@ -27,12 +25,18 @@ public class InfoDto {
                 "gameCreation=" + gameCreation +
                 ", gameDuration=" + gameDuration +
                 ", gameMode='" + gameMode + '\'' +
-                ", gameType='" + gameType + '\'' +
                 ", participants=" + participants +
                 '}';
     }
 
     public List<ParticipantDto> getParticipants() {
         return participants;
+    }
+    public long getGameDuration() {
+        return gameDuration;
+    }
+
+    public String getGameMode() {
+        return gameMode;
     }
 }

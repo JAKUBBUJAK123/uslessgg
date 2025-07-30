@@ -9,10 +9,14 @@ import lombok.NoArgsConstructor;
 public class MatchResult {
     private String matchId;
     private boolean won;
+    private ParticipantDto participant;
+    private InfoDto info;
 
-    public MatchResult(String matchId , boolean won) {
+    public MatchResult(String matchId , boolean won , ParticipantDto participant , InfoDto info) {
         this.matchId = matchId;
         this.won = won;
+        this.participant = participant;
+        this.info = info;
     }
 
     @Override
@@ -20,6 +24,19 @@ public class MatchResult {
         return "MatchResult{" +
                 "matchId='" + matchId + '\'' +
                 ", won=" + won +
+                ",participants" + participant +
                 '}';
+    }
+
+    public ParticipantDto getParticipant() {
+        return participant;
+    }
+
+    public boolean isWon() {
+        return won;
+    }
+
+    public InfoDto getInfo() {
+        return info;
     }
 }

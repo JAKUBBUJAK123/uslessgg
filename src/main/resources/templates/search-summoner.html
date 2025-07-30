@@ -18,15 +18,15 @@
         <h2 class="section-title">Ranked Overview</h2>
         <div class="ranked-entries-grid">
             <div th:each="entry: ${entries}" class="ranked-card">
-                <h3 class="queue-type" th:text="${#strings.replace(entry.queueType, '_', ' ')}">Queue Type</h3>
-                <p class="tier-rank" th:text="${entry.tier} + ' ' + ${entry.rank}"></p>
-                <p class="lp">LP: <span th:text="${entry.leaugePoints}"></span></p>
+                <h3 th:if="${entry.getQueueType()}" class="queue-type" th:text="${#strings.replace(entry.getQueueType(), '_', ' ')}">Queue Type</h3>
+                <p class="tier-rank" th:text="${entry.getTier()} + ' ' + ${entry.getRank()}"></p>
+                <p class="lp">LP: <span th:text="${entry.getLeaugePoints()}"></span></p>
                 <p class="win-loss-record">
-                    Wins: <span th:text="${entry.wins}" class="wins-count"></span> /
-                    Losses: <span th:text="${entry.losses}" class="losses-count"></span>
+                    Wins: <span th:text="${entry.getWins()}" class="wins-count"></span> /
+                    Losses: <span th:text="${entry.getLosses()}" class="losses-count"></span>
                 </p>
                 <div class="status-badges">
-                    <span th:if="${entry.hotStreak}" class="status-badge hot-streak">🔥 Hot Streak!</span>
+                    <span th:if="${entry.isHotStreak()}" class="status-badge hot-streak">🔥 Hot Streak!</span>
                 </div>
             </div>
         </div>
@@ -34,11 +34,28 @@
     <div class="match-history" th:if="${matchResults}">
         <h2 class="history-title">Match History</h2>
         <div class="match-list">
-            <div th:each="match : ${matchResults}" class="match-item" th:classappend="${match.won} ? 'match-win' : 'match-loss'">
-                <span class="match-status" th:classappend="${match.won} ? 'status-win' : 'status-loss'" th:text="${match.won} ? 'VICTORY' : 'DEFEAT'"></span>
+            <div th:each="match : ${matchResults}" class="match-item" th:classappend="${match.isWon()} ? 'match-win' : 'match-loss'">
+                <div class="match-status-column">
+                    <span class="match-status" th:classappend="${match.won} ? 'status-win' : 'status-loss'" th:text="${match.won} ? 'VICTORY' : 'DEFEAT'"></span>
+                    <span class="game-duration" th:text="${#numbers.formatInteger(match.getInfo().getGameDuration() / 60, 0)} + 'm ' + ${#numbers.formatInteger(match.getInfo().getGameDuration() % 60, 0)} + 's'"></span>
+                    <span class="game-mode" th:text="${#strings.replace(match.getInfo().getGameMode(), '_', ' ')}"></span>
+                </div>
+                <div class="summoner-stats">
+                    <span class="champion-name" th:text="${match.getParticipant().getChampionName()}"></span>
+                    <span class="kda" th:text="${match.getParticipant().getKills()} + '/' + ${match.getParticipant().getDeaths()}+ '/' + ${match.getParticipant().getDeaths()}"></span>
+                </div>
+                <div class="team-column">
+                    <div class="team-champs blue-team">
+                        <p th:each="p : ${match.getInfo().getParticipants().subList(0,5)}" class="team-champ-name" th:text="${p.getChampionName()}"></p>
+                    </div>
+                    <div class="team-champs red-team">
+                        <p th:each="p : ${match.getInfo().getParticipants().subList(5,10)}" class="team-champs-name" th:text="${p.getChampionName()}"></p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    <p th:if="${history}" th:text="${history}"></p>
     <footer class="footer-details">
         <p>&copy; 2025 Kotwica & Riot Games</p>
     </footer>
