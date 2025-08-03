@@ -12,7 +12,7 @@ public class MatchResult {
     private ParticipantDto participant;
     private InfoDto info;
 
-    public MatchResult(String matchId , boolean won , ParticipantDto participant , InfoDto info) {
+    public MatchResult(String matchId, boolean won, ParticipantDto participant, InfoDto info) {
         this.matchId = matchId;
         this.won = won;
         this.participant = participant;
@@ -24,16 +24,20 @@ public class MatchResult {
         return "MatchResult{" +
                 "matchId='" + matchId + '\'' +
                 ", won=" + won +
-                ",participants" + participant +
+                ", participant=" + participant +
                 '}';
     }
 
-    public ParticipantDto getParticipant() {
-        return participant;
+    public String getMatchId() {
+        return matchId;
     }
 
     public boolean isWon() {
         return won;
+    }
+
+    public ParticipantDto getParticipant() {
+        return participant;
     }
 
     public InfoDto getInfo() {

@@ -18,6 +18,10 @@ public class SummonerDto {
         return id;
     }
 
+    public String getPuuid() {
+        return puuid;
+    }
+
     public int getProfileIconId() {
         return profileIconId;
     }
@@ -26,11 +30,7 @@ public class SummonerDto {
         return revisionDate;
     }
 
-    public String getPuuid() {
-        return puuid;
-    }
-
-    public long getSummonerLevel() {
+    public int getSummonerLevel() {
         return summonerLevel;
     }
 

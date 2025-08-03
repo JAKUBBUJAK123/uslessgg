@@ -11,7 +11,7 @@ public class RiotApiConfig {
     private String apiKey;
 
     @Value("${riot.api.base-url.summoner}")
-    private String summonterUrlTemplate;
+    private String summonerUrlTemplate;
 
     @Value("${riot.api.base-url.account}")
     private String accountBaseUrlTemplate;
@@ -23,21 +23,26 @@ public class RiotApiConfig {
     private String defaultRegional;
 
     @Bean(name = "summonerWebClient")
-    public WebClient summonerWebClient(){
-
-        String baseUrl = summonterUrlTemplate.replace("{platform}" , defaultPlatform);
+    public WebClient summonerWebClient() {
+        String baseUrl = summonerUrlTemplate.replace("{platform}", defaultPlatform);
         return WebClient.builder()
                 .baseUrl(baseUrl)
-                .defaultHeader("X-Riot-Token" , apiKey)
+                .defaultHeader("X-Riot-Token", apiKey)
                 .build();
     }
 
     @Bean(name = "accountWebClient")
-    public WebClient accountWebClient(){
-        String baseUrl = accountBaseUrlTemplate.replace("{regional}" , defaultRegional);
+    public WebClient accountWebClient() {
+        String baseUrl = accountBaseUrlTemplate.replace("{regional}", defaultRegional);
         return WebClient.builder()
                 .baseUrl(baseUrl)
-                .defaultHeader("X-Riot-Token" , apiKey)
+                .defaultHeader("X-Riot-Token", apiKey)
+                .build();
+    }
+    @Bean
+    public WebClient ddragonWebClient() {
+        return WebClient.builder()
+                .baseUrl("https://ddragon.leagueoflegends.com")
                 .build();
     }
 }

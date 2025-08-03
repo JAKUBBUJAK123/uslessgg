@@ -17,12 +17,19 @@ import java.util.List;
 public class RiotApiService {
     private final WebClient summonerWebClient;
     private final WebClient accountWebClient;
+    private final WebClient ddragonWebClient;
+    private String latestDdragonVersion;
 
     public RiotApiService(
             @Qualifier("summonerWebClient") WebClient summonerWebClient,
-            @Qualifier("accountWebClient") WebClient accountWebClient){
+            @Qualifier("accountWebClient") WebClient accountWebClient,
+            @Qualifier("ddragonWebClient") WebClient ddragonWebClient){
         this.summonerWebClient = summonerWebClient;
         this.accountWebClient = accountWebClient;
+        this.ddragonWebClient = ddragonWebClient;
+        fetchLatestDdragonVersion().subscribe(version -> {
+            this.latestDdragonVersion = version;
+        });
     }
 
     public Mono<AccountDto> getAccountByRiotId(String gameName, String tagLine){
@@ -61,5 +68,24 @@ public class RiotApiService {
                 .uri("/lol/match/v5/matches/{matchId}", matchId)
                 .retrieve()
                 .bodyToMono(MatchDto.class);
+    }
+
+    public Mono<String> fetchLatestDdragonVersion() {
+        return ddragonWebClient.get()
+                .uri("/api/versions.json")
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<List<String>>() {})
+                .map(versions -> versions.get(0)); // Get the first (latest) version
+    }
+
+    public String getLatestDdragonVersion() {
+        if (latestDdragonVersion == null) {
+            try {
+                latestDdragonVersion = fetchLatestDdragonVersion().block();
+            } catch (Exception e) {
+                latestDdragonVersion = "14.14.1"; // Fallback
+            }
+        }
+        return latestDdragonVersion;
     }
 }

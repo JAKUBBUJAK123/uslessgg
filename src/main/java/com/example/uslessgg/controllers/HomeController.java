@@ -20,14 +20,15 @@ import java.util.List;
 public class HomeController {
     private final RiotApiService riotApiService;
 
-    public HomeController(RiotApiService riotApiService){
+    public HomeController(RiotApiService riotApiService) {
         this.riotApiService = riotApiService;
     }
+
     @GetMapping("/")
-    public String homePage(Model model){
-      model.addAttribute("message" , "Ready to search for summoners");
-      return "index";
-    };
+    public String homePage(Model model) {
+        model.addAttribute("message", "Ready to search for summoners");
+        return "index";
+    }
 
     @GetMapping("/search-summoner")
     public String searchSummoner(
@@ -35,52 +36,56 @@ public class HomeController {
             @RequestParam("tagLine") String tagLine,
             Model model) {
         try {
+            // Get account information
             Mono<AccountDto> accountMono = riotApiService.getAccountByRiotId(gameName, tagLine);
-            Mono<SummonerDto> summonerMono = accountMono.flatMap(account -> {
-                return riotApiService.getSummonerByPuuid(account.getPuuid());
-            });
+            Mono<SummonerDto> summonerMono = accountMono
+                    .flatMap(account -> riotApiService.getSummonerByPuuid(account.getPuuid()));
             SummonerDto summoner = summonerMono.block();
 
-            Mono<List<String>> matchHistoryMono = summonerMono.flatMap(s -> {
-                return riotApiService.getMatchHistoryByPuuid(s.getPuuid());
-            });
+            // Get match history
+            Mono<List<String>> matchHistoryMono = summonerMono
+                    .flatMap(summonerDto -> riotApiService.getMatchHistoryByPuuid(summonerDto.getPuuid()));
             List<String> matchHistory = matchHistoryMono.block();
 
-            Mono<List<EntriesDto>> entriesDto = summonerMono.flatMap(e ->{
-                return riotApiService.getEntriesByPuuid(e.getPuuid());
-            });
-            List<EntriesDto> entries = entriesDto.block();
+            // Get league entries
+            Mono<List<EntriesDto>> entriesMono = summonerMono
+                    .flatMap(summonerDto -> riotApiService.getEntriesByPuuid(summonerDto.getPuuid()));
+            List<EntriesDto> entries = entriesMono.block();
 
+            // Process match results
             List<MatchResult> matchResults = new ArrayList<>();
-            if (summoner != null && matchHistory != null){
-                String currentSummoner = summoner.getPuuid();
-                for(String matchId: matchHistory){
+            if (summoner != null && matchHistory != null) {
+                String currentSummonerPuuid = summoner.getPuuid();
+                for (String matchId : matchHistory) {
                     MatchDto matchDto = riotApiService.getMatchById(matchId).block();
-                    boolean won = false;
-                    if (matchDto != null && matchDto.getInfo() != null && matchDto.getInfo().getParticipants() != null){
+                    if (matchDto != null && matchDto.getInfo() != null
+                            && matchDto.getInfo().getParticipants() != null) {
                         ParticipantDto summonerParticipant = matchDto.getInfo().getParticipants().stream()
-                                .filter(p -> currentSummoner.equals(p.getPuuid()))
+                                .filter(participant -> currentSummonerPuuid.equals(participant.getPuuid()))
                                 .findFirst()
                                 .orElse(null);
-                        won = summonerParticipant.isWin();
-                        matchResults.add(new MatchResult(matchId, won , summonerParticipant, matchDto.getInfo()));
-                    }
 
+                        if (summonerParticipant != null) {
+                            boolean won = summonerParticipant.isWin();
+                            matchResults.add(new MatchResult(matchId, won, summonerParticipant, matchDto.getInfo()));
+                        }
+                    }
                 }
             }
 
+            // Add attributes to model
             model.addAttribute("summoner", summoner);
-            model.addAttribute("entries" , entries);
-            model.addAttribute("history" , matchHistory);
+            model.addAttribute("entries", entries);
+            model.addAttribute("history", matchHistory);
             model.addAttribute("matchResults", matchResults);
             model.addAttribute("account", gameName + "#" + tagLine);
             model.addAttribute("message", "Summoner found!");
             return "search-summoner";
         } catch (Exception e) {
             System.err.println("Error finding summoner: " + e.getMessage());
-            model.addAttribute("message", "Error finding summoner: " + e.getMessage() + ". Please check Game Name and Tag Line.");
+            model.addAttribute("message",
+                    "Error finding summoner: " + e.getMessage() + ". Please check Game Name and Tag Line.");
             return "index";
         }
     }
-
 }

@@ -7,8 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class UslessggApplication {
 
     public static void main(String[] args) {
-        System.out.println("im working");
         SpringApplication.run(UslessggApplication.class, args);
     }
-
 }

@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 public class InfoDto {
     @JsonProperty("gameCreation")
     private long gameCreation;
@@ -19,6 +19,22 @@ public class InfoDto {
     private String gameMode;
     @JsonProperty("participants")
     private List<ParticipantDto> participants;
+
+    public long getGameCreation() {
+        return gameCreation;
+    }
+
+    public long getGameDuration() {
+        return gameDuration;
+    }
+
+    public String getGameMode() {
+        return gameMode;}
+
+    public List<ParticipantDto> getParticipants() {
+        return participants;
+    }
+
     @Override
     public String toString() {
         return "InfoDto{" +
@@ -27,16 +43,5 @@ public class InfoDto {
                 ", gameMode='" + gameMode + '\'' +
                 ", participants=" + participants +
                 '}';
-    }
-
-    public List<ParticipantDto> getParticipants() {
-        return participants;
-    }
-    public long getGameDuration() {
-        return gameDuration;
-    }
-
-    public String getGameMode() {
-        return gameMode;
     }
 }

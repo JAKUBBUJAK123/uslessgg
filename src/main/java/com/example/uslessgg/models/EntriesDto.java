@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class EntriesDto {
     @JsonProperty("leagueId")
-    private String leaugeId;
+    private String leagueId;
     @JsonProperty("queueType")
     private String queueType;
     @JsonProperty("tier")
@@ -20,7 +20,7 @@ public class EntriesDto {
     @JsonProperty("puuid")
     private String puuid;
     @JsonProperty("leaguePoints")
-    private Integer leaugePoints;
+    private Integer leaguePoints;
     @JsonProperty("wins")
     private Integer wins;
     @JsonProperty("losses")
@@ -37,20 +37,24 @@ public class EntriesDto {
     @Override
     public String toString() {
         return "EntriesDto{" +
-                "leaugeId='" + leaugeId + '\'' +
+                "leagueId='" + leagueId + '\'' +
                 ", queueType='" + queueType + '\'' +
                 ", tier='" + tier + '\'' +
                 ", rank='" + rank + '\'' +
                 ", puuid='" + puuid + '\'' +
-                ", leaugePoints=" + leaugePoints +
+                ", leaguePoints=" + leaguePoints +
                 ", wins=" + wins +
-                ", loses=" + losses +
+                ", losses=" + losses +
                 ", veteran=" + veteran +
                 ", inactive=" + inactive +
                 ", freshBlood=" + freshBlood +
                 ", hotStreak=" + hotStreak +
                 '}';
-    };
+    }
+
+    public String getLeagueId() {
+        return leagueId;
+    }
 
     public String getQueueType() {
         return queueType;
@@ -58,10 +62,6 @@ public class EntriesDto {
 
     public String getTier() {
         return tier;
-    }
-
-    public String getLeaugeId() {
-        return leaugeId;
     }
 
     public String getRank() {
@@ -72,8 +72,12 @@ public class EntriesDto {
         return puuid;
     }
 
-    public Integer getLeaugePoints() {
-        return leaugePoints;
+    public Integer getLeaguePoints() {
+        return leaguePoints;
+    }
+
+    public Integer getWins() {
+        return wins;
     }
 
     public Integer getLosses() {
@@ -95,9 +99,4 @@ public class EntriesDto {
     public boolean isHotStreak() {
         return hotStreak;
     }
-
-    public Integer getWins() {
-        return wins;
-    }
 }
-

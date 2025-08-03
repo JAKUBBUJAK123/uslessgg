@@ -11,6 +11,9 @@
 <div class="main-container">
     <h1 th:if="${message}" th:text="${message}" class="status-message"></h1>
     <div th:if="${summoner}" class="summoner-profile-card">
+        <span>
+            <img class="profile-icon-placeholder" th:src="@{'https://ddragon.leagueoflegends.com/cdn/'+ ${@riotApiService.getLatestDdragonVersion()} + '/img/profileicon/'+ ${summoner.getProfileIconId()}+ '.png'}"/>
+        </span>
         <h2 class="profile-name" th:text="${account.toString()}">Summoner Name</h2>
         <p class="profile-level">Level: <span th:text="${summoner.summonerLevel}"></span></p>
     </div>
@@ -20,7 +23,7 @@
             <div th:each="entry: ${entries}" class="ranked-card">
                 <h3 th:if="${entry.getQueueType()}" class="queue-type" th:text="${#strings.replace(entry.getQueueType(), '_', ' ')}">Queue Type</h3>
                 <p class="tier-rank" th:text="${entry.getTier()} + ' ' + ${entry.getRank()}"></p>
-                <p class="lp">LP: <span th:text="${entry.getLeaugePoints()}"></span></p>
+                <p class="lp">LP: <span th:text="${entry.getLeaguePoints()}"></span></p>
                 <p class="win-loss-record">
                     Wins: <span th:text="${entry.getWins()}" class="wins-count"></span> /
                     Losses: <span th:text="${entry.getLosses()}" class="losses-count"></span>
@@ -41,15 +44,38 @@
                     <span class="game-mode" th:text="${#strings.replace(match.getInfo().getGameMode(), '_', ' ')}"></span>
                 </div>
                 <div class="summoner-stats">
+                    <div class="summoner-summmoners">
+                    <img th:src="@{'https://ddragon.leagueoflegends.com/cdn/' + ${@riotApiService.getLatestDdragonVersion()} + '/img/champion/' + ${match.getParticipant().getChampionName()} + '.png'}"
+                         alt="Champion Icon" class="champion-icon">
+                    <div class="summoner-spells">
+                        <img th:src="@{'https://ddragon.leagueoflegends.com/cdn/' + ${@riotApiService.getLatestDdragonVersion()} + '/img/spell/' + ${match.getParticipant().getSummonerSpells().getNameById(match.getParticipant().getsummoner1Id())} + '.png'}" class="item-icon"/>
+                        <img th:src="@{'https://ddragon.leagueoflegends.com/cdn/' + ${@riotApiService.getLatestDdragonVersion()} + '/img/spell/' + ${match.getParticipant().getSummonerSpells().getNameById(match.getParticipant().getsummoner2Id())} + '.png'}" class="item-icon"/>
+                    </div>
+                    </div>
                     <span class="champion-name" th:text="${match.getParticipant().getChampionName()}"></span>
                     <span class="kda" th:text="${match.getParticipant().getKills()} + '/' + ${match.getParticipant().getDeaths()}+ '/' + ${match.getParticipant().getDeaths()}"></span>
+                    <div class="item-list">
+                        <img th:if="${match.getParticipant().getItem0() != 0}" th:src="@{'https://ddragon.leagueoflegends.com/cdn/' + ${@riotApiService.getLatestDdragonVersion()} + '/img/item/' + ${match.getParticipant().getItem0()} + '.png'}" class="item-icon"/>
+                        <img th:if="${match.getParticipant().getItem1() != 0}" th:src="@{'https://ddragon.leagueoflegends.com/cdn/' + ${@riotApiService.getLatestDdragonVersion()} + '/img/item/' + ${match.getParticipant().getItem1()} + '.png'}" class="item-icon"/>
+                        <img th:if="${match.getParticipant().getItem2() != 0}" th:src="@{'https://ddragon.leagueoflegends.com/cdn/' + ${@riotApiService.getLatestDdragonVersion()} + '/img/item/' + ${match.getParticipant().getItem2()} + '.png'}" class="item-icon"/>
+                        <img th:if="${match.getParticipant().getItem3() != 0}" th:src="@{'https://ddragon.leagueoflegends.com/cdn/' + ${@riotApiService.getLatestDdragonVersion()} + '/img/item/' + ${match.getParticipant().getItem3()} + '.png'}" class="item-icon"/>
+                        <img th:if="${match.getParticipant().getItem4() != 0}" th:src="@{'https://ddragon.leagueoflegends.com/cdn/' + ${@riotApiService.getLatestDdragonVersion()} + '/img/item/' + ${match.getParticipant().getItem4()} + '.png'}" class="item-icon"/>
+                        <img th:if="${match.getParticipant().getItem5() != 0}" th:src="@{'https://ddragon.leagueoflegends.com/cdn/' + ${@riotApiService.getLatestDdragonVersion()} + '/img/item/' + ${match.getParticipant().getItem5()} + '.png'}" class="item-icon"/>
+                        <img th:if="${match.getParticipant().getItem6() != 0}" th:src="@{'https://ddragon.leagueoflegends.com/cdn/' + ${@riotApiService.getLatestDdragonVersion()} + '/img/item/' + ${match.getParticipant().getItem6()} + '.png'}" class="item-icon"/>
+                    </div>
                 </div>
                 <div class="team-column">
                     <div class="team-champs blue-team">
-                        <p th:each="p : ${match.getInfo().getParticipants().subList(0,5)}" class="team-champ-name" th:text="${p.getChampionName()}"></p>
+                        <div th:each="p : ${match.getInfo().getParticipants().subList(0,5)}" >
+                            <img th:src="@{'https://ddragon.leagueoflegends.com/cdn/' + ${@riotApiService.getLatestDdragonVersion()} + '/img/champion/' + ${p.getChampionName()} + '.png'}" class="team-champ-icon"/>
+                            <span th:text="${p.getRiotIdGameName()}" class="team-champ-name"></span>
+                        </div>
                     </div>
                     <div class="team-champs red-team">
-                        <p th:each="p : ${match.getInfo().getParticipants().subList(5,10)}" class="team-champs-name" th:text="${p.getChampionName()}"></p>
+                        <div th:each="p : ${match.getInfo().getParticipants().subList(5,10)}">
+                            <img th:src="@{'https://ddragon.leagueoflegends.com/cdn/' + ${@riotApiService.getLatestDdragonVersion()} + '/img/champion/' + ${p.getChampionName()} + '.png'}" class="team-champ-icon"/>
+                            <span th:text="${p.getRiotIdGameName()}" class="team-champ-name"></span>
+                        </div>
                     </div>
                 </div>
             </div>
