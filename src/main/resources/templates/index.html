@@ -14,6 +14,16 @@
     <form action="/search-summoner" method="get" class="search-form">
     <input type="text" name="gameName" placeholder="Game Name" class="input-field" required>
     <input type="text" name="tagLine" placeholder="Tag Line" class="input-field" required>
+        <div class="form-group">
+            <label for="region">Region:</label>
+            <select id="region" name="region" required>
+                <option value="EUW" selected>EUW</option>
+                <option value="EUNE">EUNE</option>
+                <option value="NA">NA</option>
+                <option value="KR">KR</option>
+                <option value="BR">BR</option>
+            </select>
+        </div>
     <button type="submit" class="submit-button">Search</button>
 </form>
     <footer>

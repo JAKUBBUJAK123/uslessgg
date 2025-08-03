@@ -34,22 +34,23 @@ public class HomeController {
     public String searchSummoner(
             @RequestParam("gameName") String gameName,
             @RequestParam("tagLine") String tagLine,
+            @RequestParam("region") String region,
             Model model) {
         try {
             // Get account information
-            Mono<AccountDto> accountMono = riotApiService.getAccountByRiotId(gameName, tagLine);
+            Mono<AccountDto> accountMono = riotApiService.getAccountByRiotId(gameName, tagLine, region);
             Mono<SummonerDto> summonerMono = accountMono
-                    .flatMap(account -> riotApiService.getSummonerByPuuid(account.getPuuid()));
+                    .flatMap(account -> riotApiService.getSummonerByPuuid(region,account.getPuuid()));
             SummonerDto summoner = summonerMono.block();
 
             // Get match history
             Mono<List<String>> matchHistoryMono = summonerMono
-                    .flatMap(summonerDto -> riotApiService.getMatchHistoryByPuuid(summonerDto.getPuuid()));
+                    .flatMap(summonerDto -> riotApiService.getMatchHistoryByPuuid(summonerDto.getPuuid(), region));
             List<String> matchHistory = matchHistoryMono.block();
 
             // Get league entries
             Mono<List<EntriesDto>> entriesMono = summonerMono
-                    .flatMap(summonerDto -> riotApiService.getEntriesByPuuid(summonerDto.getPuuid()));
+                    .flatMap(summonerDto -> riotApiService.getEntriesByPuuid(summonerDto.getPuuid(), region));
             List<EntriesDto> entries = entriesMono.block();
 
             // Process match results
@@ -57,7 +58,7 @@ public class HomeController {
             if (summoner != null && matchHistory != null) {
                 String currentSummonerPuuid = summoner.getPuuid();
                 for (String matchId : matchHistory) {
-                    MatchDto matchDto = riotApiService.getMatchById(matchId).block();
+                    MatchDto matchDto = riotApiService.getMatchById(matchId, region).block();
                     if (matchDto != null && matchDto.getInfo() != null
                             && matchDto.getInfo().getParticipants() != null) {
                         ParticipantDto summonerParticipant = matchDto.getInfo().getParticipants().stream()

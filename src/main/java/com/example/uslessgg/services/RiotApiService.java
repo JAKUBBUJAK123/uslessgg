@@ -12,60 +12,71 @@ import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class RiotApiService {
-    private final WebClient summonerWebClient;
-    private final WebClient accountWebClient;
     private final WebClient ddragonWebClient;
+    private final WebClient riotWebClient;
     private String latestDdragonVersion;
 
+    private static final Map<String, String> PLATFORM_MAP = Map.of(
+            "EUW", "euw1.api.riotgames.com", "EUNE", "eun1.api.riotgames.com", "NA", "na1.api.riotgames.com"
+    );
+    private static final Map<String, String> REGION_MAP = Map.of(
+            "EUW", "europe.api.riotgames.com", "EUNE", "europe.api.riotgames.com", "NA", "americas.api.riotgames.com"
+    );
+
     public RiotApiService(
-            @Qualifier("summonerWebClient") WebClient summonerWebClient,
-            @Qualifier("accountWebClient") WebClient accountWebClient,
+
+            @Qualifier("riotWebClient") WebClient riotWebClient,
             @Qualifier("ddragonWebClient") WebClient ddragonWebClient){
-        this.summonerWebClient = summonerWebClient;
-        this.accountWebClient = accountWebClient;
+
+        this.riotWebClient = riotWebClient;
         this.ddragonWebClient = ddragonWebClient;
+
         fetchLatestDdragonVersion().subscribe(version -> {
             this.latestDdragonVersion = version;
         });
     }
 
-    public Mono<AccountDto> getAccountByRiotId(String gameName, String tagLine){
-        return accountWebClient.get()
-                .uri("/riot/account/v1/accounts/by-riot-id/{gameName}/{tagLine}", gameName, tagLine)
+    public Mono<AccountDto> getAccountByRiotId(String gameName, String tagLine, String region){
+        String regionalHost = REGION_MAP.get(region.toUpperCase());
+        return riotWebClient.get()
+                .uri("https://{region}/riot/account/v1/accounts/by-riot-id/{gameName}/{tagLine}", regionalHost,gameName, tagLine)
                 .retrieve()
-                .bodyToMono(AccountDto.class) // Expecting an AccountDto
-                .doOnError(error -> System.err.println("Error fetching account by Riot ID: " + error.getMessage()));
+                .bodyToMono(AccountDto.class);
     }
-    public Mono<SummonerDto> getSummonerByPuuid(String puuid) {
-        return summonerWebClient.get()
-                .uri("/lol/summoner/v4/summoners/by-puuid/{puuid}", puuid)
+    public Mono<SummonerDto> getSummonerByPuuid(String platform, String puuid) {
+        String platformHost = PLATFORM_MAP.get(platform.toUpperCase());
+        return riotWebClient.get()
+                .uri("https://{platform}/lol/summoner/v4/summoners/by-puuid/{puuid}", platformHost,puuid)
                 .retrieve()
-                .bodyToMono(SummonerDto.class) // Expecting a SummonerDto
-                .doOnError(error -> System.err.println("Error fetching summoner by PUUID: " + error.getMessage()));
+                .bodyToMono(SummonerDto.class);
     }
 
-    public Mono<List<String>> getMatchHistoryByPuuid(String puuid){
-        return accountWebClient.get()
-                .uri("/lol/match/v5/matches/by-puuid/{puuid}/ids" , puuid)
+    public Mono<List<String>> getMatchHistoryByPuuid(String puuid, String region){
+        String regionalHost = REGION_MAP.get(region.toUpperCase());
+        return riotWebClient.get()
+                .uri("https://{region}/lol/match/v5/matches/by-puuid/{puuid}/ids" , regionalHost,puuid)
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<String>>() {
                 });
     }
 
-    public Mono<List<EntriesDto>> getEntriesByPuuid(String encryptedPuuid){
-        return summonerWebClient.get()
-                .uri("/lol/league/v4/entries/by-puuid/{encryptedSummonerId}", encryptedPuuid)
+    public Mono<List<EntriesDto>> getEntriesByPuuid(String encryptedPuuid, String platform){
+        String platformHost = PLATFORM_MAP.get(platform.toUpperCase());
+        return riotWebClient.get()
+                .uri("https://{platform}/lol/league/v4/entries/by-puuid/{encryptedSummonerId}", platformHost,encryptedPuuid)
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<EntriesDto>>() {
                 });
     }
 
-    public Mono<MatchDto> getMatchById(String matchId){
-        return accountWebClient.get()
-                .uri("/lol/match/v5/matches/{matchId}", matchId)
+    public Mono<MatchDto> getMatchById(String matchId, String region){
+        String regionalHost = REGION_MAP.get(region.toUpperCase());
+        return riotWebClient.get()
+                .uri("https://{region}/lol/match/v5/matches/{matchId}", regionalHost,matchId)
                 .retrieve()
                 .bodyToMono(MatchDto.class);
     }
@@ -75,7 +86,7 @@ public class RiotApiService {
                 .uri("/api/versions.json")
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<String>>() {})
-                .map(versions -> versions.get(0)); // Get the first (latest) version
+                .map(versions -> versions.get(0));
     }
 
     public String getLatestDdragonVersion() {
@@ -83,7 +94,7 @@ public class RiotApiService {
             try {
                 latestDdragonVersion = fetchLatestDdragonVersion().block();
             } catch (Exception e) {
-                latestDdragonVersion = "14.14.1"; // Fallback
+                latestDdragonVersion = "14.14.1";
             }
         }
         return latestDdragonVersion;
