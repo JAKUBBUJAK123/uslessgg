@@ -12,8 +12,6 @@
 <p>Enter a Summoner Name with #tagline:</p>
     </div>
     <form action="/search-summoner" method="get" class="search-form">
-    <input type="text" name="gameName" placeholder="Game Name" class="input-field" required>
-    <input type="text" name="tagLine" placeholder="Tag Line" class="input-field" required>
         <div class="form-group">
             <label for="region">Region:</label>
             <select id="region" name="region" required>
@@ -24,6 +22,8 @@
                 <option value="BR">BR</option>
             </select>
         </div>
+    <input type="text" name="gameName" placeholder="Game Name" class="input-field" required>
+    <input type="text" name="tagLine" placeholder="Tag Line" class="input-field" required>
     <button type="submit" class="submit-button">Search</button>
 </form>
     <footer>

@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.swing.plaf.synth.Region;
+
 @Data
 @NoArgsConstructor
 public class MatchResult {
@@ -11,12 +13,14 @@ public class MatchResult {
     private boolean won;
     private ParticipantDto participant;
     private InfoDto info;
+    private String region;
 
-    public MatchResult(String matchId, boolean won, ParticipantDto participant, InfoDto info) {
+    public MatchResult(String matchId, boolean won, ParticipantDto participant, InfoDto info, String region) {
         this.matchId = matchId;
         this.won = won;
         this.participant = participant;
         this.info = info;
+        this.region = region;
     }
 
     @Override
@@ -32,6 +36,9 @@ public class MatchResult {
         return matchId;
     }
 
+    public String getRegion() {
+        return region;
+    }
     public boolean isWon() {
         return won;
     }

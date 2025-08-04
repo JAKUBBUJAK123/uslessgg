@@ -24,6 +24,7 @@ public class SummonerSpells {
         spellIdToName.put(13, "SummonerMana");
         spellIdToName.put(14, "SummonerDot");
         spellIdToName.put(21, "SummonerBarrier");
+        spellIdToName.put(32, "SummonerSnowball");
         spellIdToName.put(2202, "SummonerCherryHold");
         spellIdToName.put(2201, "SummonerCherryFlash");
     }

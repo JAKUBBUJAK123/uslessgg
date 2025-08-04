@@ -68,7 +68,7 @@ public class HomeController {
 
                         if (summonerParticipant != null) {
                             boolean won = summonerParticipant.isWin();
-                            matchResults.add(new MatchResult(matchId, won, summonerParticipant, matchDto.getInfo()));
+                            matchResults.add(new MatchResult(matchId, won, summonerParticipant, matchDto.getInfo(), region));
                         }
                     }
                 }

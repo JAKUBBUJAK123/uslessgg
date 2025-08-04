@@ -9,6 +9,7 @@
 </head>
 <body>
 <div class="main-container">
+    <a th:href="@{/}"><button class="home-button">Home</button></a>
     <h1 th:if="${message}" th:text="${message}" class="status-message"></h1>
     <div th:if="${summoner}" class="summoner-profile-card">
         <span>
@@ -50,9 +51,9 @@
                     <div class="summoner-spells">
                         <img th:src="@{'https://ddragon.leagueoflegends.com/cdn/' + ${@riotApiService.getLatestDdragonVersion()} + '/img/spell/' + ${match.getParticipant().getSummonerSpells().getNameById(match.getParticipant().getsummoner1Id())} + '.png'}" class="item-icon"/>
                         <img th:src="@{'https://ddragon.leagueoflegends.com/cdn/' + ${@riotApiService.getLatestDdragonVersion()} + '/img/spell/' + ${match.getParticipant().getSummonerSpells().getNameById(match.getParticipant().getsummoner2Id())} + '.png'}" class="item-icon"/>
+                        <p th:text="${match.getParticipant().getsummoner2Id()}"></p>
                     </div>
                     </div>
-                    <span class="champion-name" th:text="${match.getParticipant().getChampionName()}"></span>
                     <span class="kda" th:text="${match.getParticipant().getKills()} + '/' + ${match.getParticipant().getDeaths()}+ '/' + ${match.getParticipant().getDeaths()}"></span>
                     <div class="item-list">
                         <img th:if="${match.getParticipant().getItem0() != 0}" th:src="@{'https://ddragon.leagueoflegends.com/cdn/' + ${@riotApiService.getLatestDdragonVersion()} + '/img/item/' + ${match.getParticipant().getItem0()} + '.png'}" class="item-icon"/>
@@ -68,13 +69,17 @@
                     <div class="team-champs blue-team">
                         <div th:each="p : ${match.getInfo().getParticipants().subList(0,5)}" >
                             <img th:src="@{'https://ddragon.leagueoflegends.com/cdn/' + ${@riotApiService.getLatestDdragonVersion()} + '/img/champion/' + ${p.getChampionName()} + '.png'}" class="team-champ-icon"/>
+                            <a class="summoner-link" th:href="@{/search-summoner(gameName=${p.getRiotIdGameName()}, tagLine=${p.getRiotIdTagline()}, region=${match.getRegion()})}">
                             <span th:text="${p.getRiotIdGameName()}" class="team-champ-name"></span>
+                            </a>
                         </div>
                     </div>
                     <div class="team-champs red-team">
                         <div th:each="p : ${match.getInfo().getParticipants().subList(5,10)}">
                             <img th:src="@{'https://ddragon.leagueoflegends.com/cdn/' + ${@riotApiService.getLatestDdragonVersion()} + '/img/champion/' + ${p.getChampionName()} + '.png'}" class="team-champ-icon"/>
-                            <span th:text="${p.getRiotIdGameName()}" class="team-champ-name"></span>
+                            <a class="summoner-link" th:href="@{/search-summoner(gameName=${p.getRiotIdGameName()}, tagLine=${p.getRiotIdTagline()}, region=${match.getRegion()})}">
+                            <span th:text="${p.getRiotIdGameName()}" class="team-champ-name" onclick=""></span>
+                            </a>
                         </div>
                     </div>
                 </div>

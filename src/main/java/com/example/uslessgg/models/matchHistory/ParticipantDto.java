@@ -17,6 +17,8 @@ public class ParticipantDto {
     private String puuid;
     @JsonProperty("riotIdGameName")
     private String riotIdGameName;
+    @JsonProperty("riotIdTagline")
+    private String riotIdTagline;
     @JsonProperty("win")
     private boolean win;
     @JsonProperty("kills")
@@ -42,13 +44,7 @@ public class ParticipantDto {
     private SummonerSpells summonerSpells = new SummonerSpells();
 
 
-    public int getsummoner1Id() {
-        return summoner1Id;
-    }
 
-    public int getsummoner2Id() {
-        return summoner2Id;
-    }
 
     @Override
     public String toString() {
@@ -74,6 +70,17 @@ public class ParticipantDto {
         return riotIdGameName;
     }
 
+    public int getsummoner1Id() {
+        return summoner1Id;
+    }
+
+    public int getsummoner2Id() {
+        return summoner2Id;
+    }
+    public String getRiotIdTagline() {
+        return riotIdTagline;
+    }
+
     public int getKills() {
         return kills;
     }
@@ -87,7 +94,12 @@ public class ParticipantDto {
     }
 
     public String getChampionName() {
-        return championName;
+        if(this.championName.equals("FiddleSticks")){
+            return "Fiddlesticks";
+        }else{
+            return championName;
+        }
+
     }
 
     public int getObjectivesStolen() {
