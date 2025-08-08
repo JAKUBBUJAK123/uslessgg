@@ -51,10 +51,11 @@
                     <div class="summoner-spells">
                         <img th:src="@{'https://ddragon.leagueoflegends.com/cdn/' + ${@riotApiService.getLatestDdragonVersion()} + '/img/spell/' + ${match.getParticipant().getSummonerSpells().getNameById(match.getParticipant().getsummoner1Id())} + '.png'}" class="item-icon"/>
                         <img th:src="@{'https://ddragon.leagueoflegends.com/cdn/' + ${@riotApiService.getLatestDdragonVersion()} + '/img/spell/' + ${match.getParticipant().getSummonerSpells().getNameById(match.getParticipant().getsummoner2Id())} + '.png'}" class="item-icon"/>
-                        <p th:text="${match.getParticipant().getsummoner2Id()}"></p>
                     </div>
                     </div>
                     <span class="kda" th:text="${match.getParticipant().getKills()} + '/' + ${match.getParticipant().getDeaths()}+ '/' + ${match.getParticipant().getDeaths()}"></span>
+                    <span th:text="${match.getUslessScore()}"></span>
+                    <span th:text="${match.getParticipant().getIndividualPosition()}"></span>
                     <div class="item-list">
                         <img th:if="${match.getParticipant().getItem0() != 0}" th:src="@{'https://ddragon.leagueoflegends.com/cdn/' + ${@riotApiService.getLatestDdragonVersion()} + '/img/item/' + ${match.getParticipant().getItem0()} + '.png'}" class="item-icon"/>
                         <img th:if="${match.getParticipant().getItem1() != 0}" th:src="@{'https://ddragon.leagueoflegends.com/cdn/' + ${@riotApiService.getLatestDdragonVersion()} + '/img/item/' + ${match.getParticipant().getItem1()} + '.png'}" class="item-icon"/>

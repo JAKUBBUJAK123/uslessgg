@@ -29,8 +29,45 @@ public class ParticipantDto {
     private int assists;
     @JsonProperty("championName")
     private String championName;
+    @JsonProperty("goldEarned")
+    private int goldEarned;
+    @JsonProperty("individualPosition")
+    private String individualPosition;
+    @JsonProperty("totalMinionsKilled")
+    private int totalMinionsKilled;
+
+    //Jungle Stats
     @JsonProperty("objectivesStolen")
     private int objectivesStolen;
+    @JsonProperty("dragonKills")
+    private int dragonKills;
+    @JsonProperty("firstBloodKill")
+    private boolean firstBloodKill;
+    @JsonProperty("firstBloodAssist")
+    private boolean firstBloodAssist;
+    @JsonProperty("totalEnemyJungleMinionsKilled")
+    private int totalEnemyJungleMinionsKilled;
+    @JsonProperty("visionScore")
+    private int visionScore;
+
+    //Top Stats
+    @JsonProperty("damageDealtToTurrets")
+    private int damageDealtToTurrets;
+
+    //Adc Statsd
+    @JsonProperty("doubleKills")
+    private int doubleKills;
+    @JsonProperty("killingSprees")
+    private int killingSprees;
+    @JsonProperty("largestKillingSpree")
+    private int largestKillingSpree;
+    @JsonProperty("totalDamageDealtToChampions")
+    private int totalDamageDealtToChampions;
+    @JsonProperty("totalTimeSpentDead")
+    private int totalTimeSpentDead;
+    @JsonProperty("largestMultiKill")
+    private int largestMultiKill;
+
     private int item0;
     private int item1;
     private int item2;
@@ -74,6 +111,10 @@ public class ParticipantDto {
         return summoner1Id;
     }
 
+    public int getLargestMultiKill() {
+        return largestMultiKill;
+    }
+
     public int getsummoner2Id() {
         return summoner2Id;
     }
@@ -85,8 +126,32 @@ public class ParticipantDto {
         return kills;
     }
 
+    public int getDoubleKills() {
+        return doubleKills;
+    }
+
+    public int getKillingSprees() {
+        return killingSprees;
+    }
+
+    public int getLargestKillingSpree() {
+        return largestKillingSpree;
+    }
+
+    public int getTotalDamageDealtToChampions() {
+        return totalDamageDealtToChampions;
+    }
+
+    public int getTotalTimeSpentDead() {
+        return totalTimeSpentDead;
+    }
+
     public int getDeaths() {
         return deaths;
+    }
+
+    public String getIndividualPosition() {
+        return individualPosition;
     }
 
     public int getAssists() {
@@ -135,5 +200,37 @@ public class ParticipantDto {
 
     public SummonerSpells getSummonerSpells() {
         return summonerSpells;
+    }
+
+    public int getGoldEarned() {
+        return goldEarned;
+    }
+
+    public int getTotalMinionsKilled() {
+        return totalMinionsKilled;
+    }
+
+    public int getDragonKills() {
+        return dragonKills;
+    }
+
+    public boolean isFirstBloodKill() {
+        return firstBloodKill;
+    }
+
+    public boolean isFirstBloodAssist() {
+        return firstBloodAssist;
+    }
+
+    public int getTotalEnemyJungleMinionsKilled() {
+        return totalEnemyJungleMinionsKilled;
+    }
+
+    public int getVisionScore() {
+        return visionScore;
+    }
+
+    public int getDamageDealtToTurrets() {
+        return damageDealtToTurrets;
     }
 }

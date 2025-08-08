@@ -2,6 +2,7 @@ package com.example.uslessgg.controllers;
 
 import com.example.uslessgg.models.AccountDto;
 import com.example.uslessgg.models.EntriesDto;
+import com.example.uslessgg.models.ScoreCalculator;
 import com.example.uslessgg.models.SummonerDto;
 import com.example.uslessgg.models.matchHistory.MatchDto;
 import com.example.uslessgg.models.matchHistory.MatchResult;
@@ -67,8 +68,15 @@ public class HomeController {
                                 .orElse(null);
 
                         if (summonerParticipant != null) {
+                            double Score = 0;
+                            if(summonerParticipant.getIndividualPosition().equals("JUNGLE")){
+                                Score = ScoreCalculator.calculateJungleScore(summonerParticipant);
+                            }
+                            else if(summonerParticipant.getIndividualPosition().equals("BOTTOM")){
+                                Score = ScoreCalculator.calculateAdcScore(summonerParticipant);
+                            }
                             boolean won = summonerParticipant.isWin();
-                            matchResults.add(new MatchResult(matchId, won, summonerParticipant, matchDto.getInfo(), region));
+                            matchResults.add(new MatchResult(matchId, won, summonerParticipant, matchDto.getInfo(), region, Score));
                         }
                     }
                 }
