@@ -54,8 +54,7 @@
                     </div>
                     </div>
                     <span class="kda" th:text="${match.getParticipant().getKills()} + '/' + ${match.getParticipant().getDeaths()}+ '/' + ${match.getParticipant().getDeaths()}"></span>
-                    <span th:text="${match.getUslessScore()}"></span>
-                    <span th:text="${match.getParticipant().getIndividualPosition()}"></span>
+                    <span th:if="${match.getUslessScore()!=0}" th:text="${match.getUslessScore().replace('-', ' ')}" class="useless-score-text" th:classappend="'useless-score-' + ${match.getUslessScore()}"></span>
                     <div class="item-list">
                         <img th:if="${match.getParticipant().getItem0() != 0}" th:src="@{'https://ddragon.leagueoflegends.com/cdn/' + ${@riotApiService.getLatestDdragonVersion()} + '/img/item/' + ${match.getParticipant().getItem0()} + '.png'}" class="item-icon"/>
                         <img th:if="${match.getParticipant().getItem1() != 0}" th:src="@{'https://ddragon.leagueoflegends.com/cdn/' + ${@riotApiService.getLatestDdragonVersion()} + '/img/item/' + ${match.getParticipant().getItem1()} + '.png'}" class="item-icon"/>
@@ -87,7 +86,6 @@
             </div>
         </div>
     </div>
-    <p th:if="${history}" th:text="${history}"></p>
     <footer class="footer-details">
         <p>&copy; 2025 Kotwica & Riot Games</p>
     </footer>

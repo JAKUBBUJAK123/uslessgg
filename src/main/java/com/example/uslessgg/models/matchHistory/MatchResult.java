@@ -14,9 +14,9 @@ public class MatchResult {
     private ParticipantDto participant;
     private InfoDto info;
     private String region;
-    private Double uslessScore;
+    private String uslessScore;
 
-    public MatchResult(String matchId, boolean won, ParticipantDto participant, InfoDto info, String region, Double uslessScore) {
+    public MatchResult(String matchId, boolean won, ParticipantDto participant, InfoDto info, String region, String uslessScore) {
         this.matchId = matchId;
         this.won = won;
         this.participant = participant;
@@ -38,7 +38,7 @@ public class MatchResult {
         return matchId;
     }
 
-    public Double getUslessScore() {
+    public String getUslessScore() {
         return uslessScore;
     }
 

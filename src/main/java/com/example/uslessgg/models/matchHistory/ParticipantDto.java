@@ -53,6 +53,20 @@ public class ParticipantDto {
     //Top Stats
     @JsonProperty("damageDealtToTurrets")
     private int damageDealtToTurrets;
+    @JsonProperty("totalDamageTaken")
+    private int totalDamageTaken;
+    @JsonProperty("turretKills")
+    private int turretKills;
+
+
+    //Supp Stats
+    @JsonProperty("timeCCingOthers")
+    private int timeCCingOthers;
+    @JsonProperty("totalDamageShieldedOnTeammates")
+    private int totalDamageShieldedOnTeammates;
+    @JsonProperty("totalHealsOnTeammates")
+    private int totalHealsOnTeammates;
+
 
     //Adc Statsd
     @JsonProperty("doubleKills")
@@ -114,6 +128,27 @@ public class ParticipantDto {
     public int getLargestMultiKill() {
         return largestMultiKill;
     }
+
+    public int getTotalDamageTaken() {
+        return totalDamageTaken;
+    }
+
+    public int getTurretKills() {
+        return turretKills;
+    }
+
+    public int getTimeCCingOthers() {
+        return timeCCingOthers;
+    }
+
+    public int getTotalDamageShieldedOnTeammates() {
+        return totalDamageShieldedOnTeammates;
+    }
+
+    public int getTotalHealsOnTeammates() {
+        return totalHealsOnTeammates;
+    }
+
 
     public int getsummoner2Id() {
         return summoner2Id;

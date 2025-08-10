@@ -29,6 +29,9 @@ public class InfoDto {
     }
 
     public String getGameMode() {
+        if (this.gameMode.equals("CHERRY")){
+            return "ARENA";
+        }
         return gameMode;}
 
     public List<ParticipantDto> getParticipants() {

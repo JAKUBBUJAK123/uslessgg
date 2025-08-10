@@ -338,6 +338,49 @@
 .status-message{
     margin-top: 30px;
 }
+
+.useless-score-text {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px; /* Pill shape */
+    margin-bottom: 5px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+    /* Text effects */
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+    letter-spacing: 0.05em;
+
+
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.useless-score-text:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* --- Dynamic Colors based on Score --- */
+.useless-score-💀-Cipeczka {
+    background: linear-gradient(135deg, #4C4DE4, #ADADD3);
+}
+
+.useless-score-👴-Słabeuszek {
+    background: linear-gradient(135deg, #FA02B4, #02A8FA);
+}
+
+.useless-score-💩-Klocek {
+    background: linear-gradient(135deg, #B37A6C, #7B2914);
+}
+
+.useless-score-😎-Cosik-tam-zagrał {
+    background: linear-gradient(135deg, #FACD02, #51FA02);
+}
+
+.useless-score-🔥-Kubus-godlike-tier {
+    background: linear-gradient(135deg, #FA5902, #FA0202);
+}
 /* Responsive Adjustments */
 @media (max-width: 768px) {
     .main-container {

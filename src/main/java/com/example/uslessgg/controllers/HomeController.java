@@ -68,12 +68,18 @@ public class HomeController {
                                 .orElse(null);
 
                         if (summonerParticipant != null) {
-                            double Score = 0;
+                            String Score = "";
                             if(summonerParticipant.getIndividualPosition().equals("JUNGLE")){
                                 Score = ScoreCalculator.calculateJungleScore(summonerParticipant);
                             }
-                            else if(summonerParticipant.getIndividualPosition().equals("BOTTOM")){
+                            else if(summonerParticipant.getIndividualPosition().equals("BOTTOM") || summonerParticipant.getIndividualPosition().equals("MIDDLE")){
                                 Score = ScoreCalculator.calculateAdcScore(summonerParticipant);
+                            }
+                            else if(summonerParticipant.getIndividualPosition().equals("TOP")){
+                                Score = ScoreCalculator.calculateTopScore(summonerParticipant);
+                            }
+                            else if(summonerParticipant.getIndividualPosition().equals("UTILITY")){
+                                Score = ScoreCalculator.calculateSuppScore(summonerParticipant);
                             }
                             boolean won = summonerParticipant.isWin();
                             matchResults.add(new MatchResult(matchId, won, summonerParticipant, matchDto.getInfo(), region, Score));
