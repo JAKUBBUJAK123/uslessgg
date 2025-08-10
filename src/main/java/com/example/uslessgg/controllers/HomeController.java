@@ -27,7 +27,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String homePage(Model model) {
-        model.addAttribute("message", "Ready to search for summoners");
+//        model.addAttribute("message", "Ready to search for summoners");
         return "index";
     }
 
@@ -70,16 +70,16 @@ public class HomeController {
                         if (summonerParticipant != null) {
                             String Score = "";
                             if(summonerParticipant.getIndividualPosition().equals("JUNGLE")){
-                                Score = ScoreCalculator.calculateJungleScore(summonerParticipant);
+                                Score = ScoreCalculator.calculateJungleScore(summonerParticipant, matchDto.getInfo().getGameDuration());
                             }
                             else if(summonerParticipant.getIndividualPosition().equals("BOTTOM") || summonerParticipant.getIndividualPosition().equals("MIDDLE")){
-                                Score = ScoreCalculator.calculateAdcScore(summonerParticipant);
+                                Score = ScoreCalculator.calculateAdcScore(summonerParticipant , matchDto.getInfo().getGameDuration());
                             }
                             else if(summonerParticipant.getIndividualPosition().equals("TOP")){
-                                Score = ScoreCalculator.calculateTopScore(summonerParticipant);
+                                Score = ScoreCalculator.calculateTopScore(summonerParticipant , matchDto.getInfo().getGameDuration());
                             }
                             else if(summonerParticipant.getIndividualPosition().equals("UTILITY")){
-                                Score = ScoreCalculator.calculateSuppScore(summonerParticipant);
+                                Score = ScoreCalculator.calculateSuppScore(summonerParticipant , matchDto.getInfo().getGameDuration());
                             }
                             boolean won = summonerParticipant.isWin();
                             matchResults.add(new MatchResult(matchId, won, summonerParticipant, matchDto.getInfo(), region, Score));
@@ -99,7 +99,7 @@ public class HomeController {
         } catch (Exception e) {
             System.err.println("Error finding summoner: " + e.getMessage());
             model.addAttribute("message",
-                    "Error finding summoner: " + e.getMessage() + ". Please check Game Name and Tag Line.");
+                    "Error finding summoner: " + ". Please check Game Name and Tag Line.");
             return "index";
         }
     }
